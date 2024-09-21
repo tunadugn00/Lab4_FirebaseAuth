@@ -10,13 +10,13 @@ import { FontAwesome } from '@expo/vector-icons';
 
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyCdaC5MlHbpvtdsaO2Y-iy2ADPPAVOLvNc",
-  authDomain: "todosapp-df597.firebaseapp.com",
-  projectId: "todosapp-df597",
-  storageBucket: "todosapp-df597.appspot.com",
-  messagingSenderId: "756702315456",
-  appId: "1:756702315456:web:ac5da9055aa02102d8fe25",
-  measurementId: "G-49H0X06ZQC"
+  apiKey: "AIzaSyBPu5cbHy-FO2pvM0PquNThaO472U_UxT4",
+  authDomain: "lab4-firebase-150db.firebaseapp.com",
+  projectId: "lab4-firebase-150db",
+  storageBucket: "lab4-firebase-150db.appspot.com",
+  messagingSenderId: "202700732074",
+  appId: "1:202700732074:web:4906a173e70dd9b8d482d3",
+  measurementId: "G-P55DRDS04Q"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -42,7 +42,7 @@ const LoginScreen: React.FC = () => {
     console.log(`Login with ${platform}`);
   };
   return (
-    <LinearGradient colors={['#FF9966', '#FF5E62']} style={styles.gradient}>
+    <LinearGradient colors={['#0099FF', '#33CCFF']} style={styles.gradient}>
       <SafeAreaView>
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
           <View style={styles.logoContainer}>
@@ -65,7 +65,7 @@ const LoginScreen: React.FC = () => {
             <View style={styles.inputContainer}>
               <Feather name="lock" size={24} color="#FF5E62" style={styles.icon} />
               <TextInput
-                style={styles.input}
+                style={styles.inputpass}
                 placeholder="Password"
                 placeholderTextColor="#999"
                 value={password}
@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingBottom: 150,
+    
   },
   scrollViewContent: {
     flexGrow: 1,
@@ -166,6 +167,14 @@ const styles = StyleSheet.create({
     height: 50,
     fontSize: 16,
     color: '#333',
+    width: 300,
+  },
+  inputpass: {
+    flex: 1,
+    height: 50,
+    fontSize: 16,
+    color: '#333',
+    width: 280,
   },
   button: {
     backgroundColor: '#FF5E62',
@@ -199,6 +208,7 @@ const styles = StyleSheet.create({
   signupText: {
     color: '#666',
     fontSize: 16,
+    
   },
   signupLink: {
     color: '#FF5E62',

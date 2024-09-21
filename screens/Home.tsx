@@ -23,35 +23,13 @@ const HomeScreen = () => {
 
   return (
     <LinearGradient
-      colors={['#FF9966', '#FF5E62']}
+      colors={['#0099FF', '#33CCFF']}
       style={styles.container}
     >
       <View style={styles.header}>
         <Text style={styles.headerText}>Welcome Home</Text>
       </View>
-      <View style={styles.content}>
-        <TouchableOpacity 
-          style={styles.card}
-          onPress={() => navigation.navigate('Tasks' as never)} // Add your navigation here
-        >
-          <Feather name="list" size={24} color="#FF5E62" />
-          <Text style={styles.cardText}>My Tasks</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.card}
-          onPress={() => navigation.navigate('Calendar' as never)} // Add your navigation here
-        >
-          <Feather name="calendar" size={24} color="#FF5E62" />
-          <Text style={styles.cardText}>Calendar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.card}
-          onPress={() => navigation.navigate('Settings' as never)} // Add your navigation here
-        >
-          <Feather name="settings" size={24} color="#FF5E62" />
-          <Text style={styles.cardText}>Settings</Text>
-        </TouchableOpacity>
-      </View>
+    
       <TouchableOpacity 
         style={styles.logoutButton}
         onPress={handleLogout}
@@ -104,10 +82,12 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     backgroundColor: '#FF5E62',
-    padding: 15,
+    padding: 20,
     alignItems: 'center',
-    borderRadius: 25,
-    margin: 20,
+    borderRadius: 50,
+    marginBottom: 1000,
+    marginLeft:170,
+    width:120,
   },
   logoutButtonText: {
     color: '#fff',

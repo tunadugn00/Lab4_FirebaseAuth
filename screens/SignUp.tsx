@@ -37,7 +37,7 @@ const SignupScreen: React.FC = () => {
 
 
   return (
-    <LinearGradient colors={['#FF9966', '#FF5E62']} style={styles.gradient}>
+    <LinearGradient colors={['#0099FF', '#33CCFF']} style={styles.gradient}>
       <KeyboardAvoidingView 
         style={styles.container} 
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -60,7 +60,7 @@ const SignupScreen: React.FC = () => {
             <View style={styles.inputContainer}>
               <Feather name="lock" size={24} color="#FF5E62" style={styles.icon} />
               <TextInput
-                style={styles.input}
+                style={styles.inputpass}
                 placeholder="Password"
                 value={password}
                 onChangeText={setPassword}
@@ -73,7 +73,7 @@ const SignupScreen: React.FC = () => {
             <View style={styles.inputContainer}>
               <Feather name="check-circle" size={24} color="#FF5E62" style={styles.icon} />
               <TextInput
-                style={styles.input}
+                style={styles.inputpass}
                 placeholder="Confirm Password"
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
@@ -99,7 +99,7 @@ const SignupScreen: React.FC = () => {
               </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.linkButton} onPress={() => navigation.navigate('Login' as never)}>
-              <Text style={styles.linkButtonText}>Already have an account? Log In</Text>
+              <Text style={styles.linkButtonText}> Log In</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -156,6 +156,14 @@ const styles = StyleSheet.create({
     height: 50,
     fontSize: 16,
     color: '#333',
+    width: 300,
+  },
+  inputpass: {
+    flex: 1,
+    height: 50,
+    fontSize: 16,
+    color: '#333',
+    width: 280,
   },
   button: {
     backgroundColor: '#FF5E62',
@@ -181,6 +189,7 @@ const styles = StyleSheet.create({
   linkButtonText: {
     color: '#FF5E62',
     fontSize: 16,
+    fontWeight:'bold',
   },
   socialSignupContainer: {
     flexDirection: 'row',

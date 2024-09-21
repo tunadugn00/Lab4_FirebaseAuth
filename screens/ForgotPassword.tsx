@@ -16,7 +16,7 @@ const ForgotPasswordScreen: React.FC = () => {
       await sendPasswordResetEmail(auth, email);
       setMessage('Password reset email sent. Check your inbox.');
     } catch (error) {
-      setMessage('Failed to send reset email. Please try again.');
+      setMessage('Please enter email.');
     }
   };
 
@@ -53,7 +53,7 @@ const ForgotPasswordScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6F8FA',
+    backgroundColor: '#0099FF',
   },
   innerContainer: {
     flex: 1,
@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: 50,
+    width:250,
     fontSize: 16,
     color: '#333',
   },
@@ -103,16 +104,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   messageText: {
-    color: '#007AFF',
+    color: 'black',
     marginBottom: 10,
     textAlign: 'center',
+    fontWeight: 'bold',
   },
   linkButton: {
     marginTop: 20,
   },
   linkButtonText: {
-    color: '#007AFF',
+    color: 'black',
     fontSize: 16,
+    fontWeight: 'bold'
   },
 });
 
