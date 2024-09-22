@@ -1,16 +1,22 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+//screens\Home.tsx
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, AppState } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { FontAwesome } from '@expo/vector-icons';
-import { getAuth, signOut } from 'firebase/auth'; // Import getAuth và signOut
+import { getAuth, signOut } from 'firebase/auth'; 
 
 
+
+const AUTO_LOGOUT_TIME = 5000;
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const auth = getAuth(); // Lấy instance của auth
+  const auth = getAuth();
+  let timeoutId: NodeJS.Timeout; 
+
+  const handleChangePassword = () => {
+    navigation.navigate('ChangePassword' as never);
+  };
 
   const handleLogout = async () => {
     try {
@@ -20,6 +26,28 @@ const HomeScreen = () => {
       console.error('Error signing out: ', error);
     }
   };
+  
+  const resetTimeout = () => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    timeoutId = setTimeout(handleLogout, AUTO_LOGOUT_TIME);
+  };
+
+  useEffect(() => {
+    resetTimeout(); // Đặt timeout khi component mount
+
+    const subscription = AppState.addEventListener('change', (nextAppState) => {
+      if (nextAppState === 'active') {
+        resetTimeout(); // Reset timeout khi ứng dụng trở lại trạng thái hoạt động
+      }
+    });
+
+    return () => {
+      clearTimeout(timeoutId);
+      subscription.remove(); // Hủy đăng ký khi component unmount
+    };
+  }, []);
 
   return (
     <LinearGradient
@@ -27,15 +55,24 @@ const HomeScreen = () => {
       style={styles.container}
     >
       <View style={styles.header}>
-        <Text style={styles.headerText}>Welcome Home</Text>
+        <Text style={styles.headerText}>Gumasushiuuu</Text>
       </View>
-    
-      <TouchableOpacity 
-        style={styles.logoutButton}
-        onPress={handleLogout}
-      >
-        <Text style={styles.logoutButtonText}>Logout</Text>
-      </TouchableOpacity>
+      
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity 
+          style={styles.button}
+          onPress={handleChangePassword}
+        >
+          <Text style={styles.buttonText}>Change Password</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity 
+          style={styles.button}
+          onPress={handleLogout}
+        >
+          <Text style={styles.buttonText}>Logout</Text>
+        </TouchableOpacity>
+      </View>
     </LinearGradient>
   );
 };
@@ -80,17 +117,20 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontWeight: '600',
   },
-  logoutButton: {
-    backgroundColor: '#FF5E62',
-    padding: 20,
+  buttonContainer: {
+    marginBottom: 50,
     alignItems: 'center',
-    borderRadius: 50,
-    marginBottom: 1000,
-    marginLeft:170,
-    width:120,
   },
-  logoutButtonText: {
-    color: '#fff',
+  button: {
+    backgroundColor: 'white',
+    padding: 15,
+    alignItems: 'center',
+    borderRadius: 10,
+    marginVertical: 10,
+    width: 200,
+  },
+  buttonText: {
+    color: '#0099FF',
     fontSize: 16,
     fontWeight: 'bold',
   },

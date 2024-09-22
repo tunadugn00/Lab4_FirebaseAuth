@@ -1,9 +1,11 @@
+// screens\SignUp.tsx
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
+import PasswordStrengthIndicator from '../components/PasswordStrengthIndicator';
 
 const auth = getAuth();
 
@@ -46,8 +48,8 @@ const SignupScreen: React.FC = () => {
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
           <View style={styles.formContainer}>
             <Text style={styles.title}>Create Account</Text>
-            <View style={styles.inputContainer}>
-              <Feather name="mail" size={24} color="#FF5E62" style={styles.icon} />
+            <View style={styles.inputContaineremail}>
+              <Feather name="mail" size={24} color="#0099FF" style={styles.icon} />
               <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -58,7 +60,7 @@ const SignupScreen: React.FC = () => {
               />
             </View>
             <View style={styles.inputContainer}>
-              <Feather name="lock" size={24} color="#FF5E62" style={styles.icon} />
+              <Feather name="lock" size={24} color="#0099FF" style={styles.icon} />
               <TextInput
                 style={styles.inputpass}
                 placeholder="Password"
@@ -67,11 +69,13 @@ const SignupScreen: React.FC = () => {
                 secureTextEntry={!showPassword}
               />
               <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                <Feather name={showPassword ? "eye" : "eye-off"} size={24} color="#FF5E62" />
+                <Feather name={showPassword ? "eye" : "eye-off"} size={24} color="#0099FF" />
               </TouchableOpacity>
             </View>
+            <PasswordStrengthIndicator password={password} />
+            
             <View style={styles.inputContainer}>
-              <Feather name="check-circle" size={24} color="#FF5E62" style={styles.icon} />
+              <Feather name="check-circle" size={24} color="#0099FF" style={styles.icon} />
               <TextInput
                 style={styles.inputpass}
                 placeholder="Confirm Password"
@@ -80,24 +84,14 @@ const SignupScreen: React.FC = () => {
                 secureTextEntry={!showConfirmPassword}
               />
               <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
-                <Feather name={showConfirmPassword ? "eye" : "eye-off"} size={24} color="#FF5E62" />
+                <Feather name={showConfirmPassword ? "eye" : "eye-off"} size={24} color="#0099FF" />
               </TouchableOpacity>
             </View>
             {error ? <Text style={styles.errorText}>{error}</Text> : null}
             <TouchableOpacity style={styles.button} onPress={handleSignup}>
               <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
-            <View style={styles.socialSignupContainer}>
-              <TouchableOpacity style={styles.socialButton} onPress={() => handleSocialSignup('google')}>
-                <FontAwesome name="google" size={24} color="#DB4437" />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.socialButton} onPress={() => handleSocialSignup('facebook')}>
-                <FontAwesome name="facebook" size={24} color="#4267B2" />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.socialButton} onPress={() => handleSocialSignup('github')}>
-                <FontAwesome name="github" size={24} color="#333" />
-              </TouchableOpacity>
-            </View>
+            
             <TouchableOpacity style={styles.linkButton} onPress={() => navigation.navigate('Login' as never)}>
               <Text style={styles.linkButtonText}> Log In</Text>
             </TouchableOpacity>
@@ -132,7 +126,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#FF5E62',
+    color: '#0099FF',
     marginBottom: 30,
   },
   inputContainer: {
@@ -141,6 +135,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
     marginBottom: 15,
+    paddingHorizontal: 15,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+  inputContaineremail: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    marginBottom: 45,
     paddingHorizontal: 15,
     elevation: 2,
     shadowColor: '#000',
@@ -166,13 +173,14 @@ const styles = StyleSheet.create({
     width: 280,
   },
   button: {
-    backgroundColor: '#FF5E62',
+    backgroundColor: '#0099FF',
     borderRadius: 10,
     paddingVertical: 15,
     paddingHorizontal: 30,
     alignItems: 'center',
     marginTop: 20,
     width: '100%',
+
   },
   buttonText: {
     color: 'white',
@@ -187,7 +195,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   linkButtonText: {
-    color: '#FF5E62',
+    color: '#0099FF',
     fontSize: 16,
     fontWeight:'bold',
   },

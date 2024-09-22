@@ -1,3 +1,4 @@
+//app\(tabs)\index.tsx
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -5,6 +6,7 @@ import LoginScreen from '@/screens/LoginScreens';
 import SignupScreen from '@/screens/SignUp';
 import ForgotPasswordScreen from '@/screens/ForgotPassword';
 import HomeScreen from '@/screens/Home'; // Import HomeScreen
+import ChangePasswordScreen from '@/screens/ChangePassword';
 
 const Stack = createNativeStackNavigator();
 
@@ -44,6 +46,7 @@ const App: React.FC = () => {
           component={HomeScreen} 
           options={{ title: 'Home' }}
         />
+        <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
