@@ -111,92 +111,69 @@ const LoginScreen: React.FC = () => {
 
 
   return (
-    <LinearGradient colors={['#0099FF', '#33CCFF']} style={styles.gradient}>
-      <SafeAreaView>
-        <ScrollView contentContainerStyle={styles.scrollViewContent}>
-          <View style={styles.logoContainer}>
-            <Image style={styles.logo} />
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        
+        <Text style={styles.title}>Gumayusiuuuu</Text>
+        <View style={styles.formContainer}>
+          <View style={styles.inputContainer}>
+            <Feather name="mail" size={20} color="#7F8C8D" style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              placeholderTextColor="#7F8C8D"
+              value={email}
+              onChangeText={handleInputChange(setEmail)}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
           </View>
-          <View style={styles.formContainer}>
-            <Text style={styles.title}>Gumayusiuuu</Text>
-            <View style={styles.inputContainer}>
-              <Feather name="mail" size={24} color="#33CCFF" style={styles.icon} />
-              <TextInput
-                style={styles.input}
-                placeholder="Email"
-                placeholderTextColor="#999"
-                value={email}
-                onChangeText={handleInputChange(setEmail)}
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <Feather name="lock" size={24} color="#33CCFF" style={styles.icon} />
-              <TextInput
-                style={styles.inputpass}
-                placeholder="Password"
-                placeholderTextColor="#999"
-                value={password}
-                onChangeText={handleInputChange(setPassword)}
-                secureTextEntry={!showPassword}
-              />
-              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                <Feather name={showPassword ? "eye" : "eye-off"} size={24} color="#33CCFF" />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.rememberMeContainer}>
-              <TouchableOpacity
-                style={styles.checkbox}
-                onPress={() => setRememberMe(!rememberMe)}
-              >
-                {rememberMe && <Feather name="check" size={18} color="#33CCFF" />}
-              </TouchableOpacity>
-              <Text style={styles.rememberMeText}>Remember Me</Text>
-            </View>
-            {error ? <Text style={styles.errorText}>{error}</Text> : null}
-            <TouchableOpacity style={styles.button} onPress={handleLogin}>
-              <Text style={styles.buttonText}>Log In</Text>
+          <View style={styles.inputContainer}>
+            <Feather name="lock" size={20} color="#7F8C8D" style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              placeholderTextColor="#7F8C8D"
+              value={password}
+              onChangeText={handleInputChange(setPassword)}
+              secureTextEntry={!showPassword}
+            />
+            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+              <Feather name={showPassword ? "eye" : "eye-off"} size={20} color="#7F8C8D" />
             </TouchableOpacity>
-            {/* 
-                <View style={styles.socialLoginContainer}>
-                  <TouchableOpacity style={styles.socialButton} onPress={() => handleSocialLogin('google')}>
-                    <FontAwesome name="google" size={24} color="#DB4437" />
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.socialButton} onPress={() => handleSocialLogin('facebook')}>
-                    <FontAwesome name="facebook" size={24} color="#4267B2" />
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.socialButton} onPress={() => handleSocialLogin('github')}>
-                    <FontAwesome name="github" size={24} color="#333" />
-                  </TouchableOpacity>
-                </View>
-                */}
-
-            <TouchableOpacity style={styles.forgotPassword} onPress={() => navigation.navigate('ForgotPassword' as never)}>
+          </View>
+          <View style={styles.optionsContainer}>
+            <TouchableOpacity
+              style={styles.checkbox}
+              onPress={() => setRememberMe(!rememberMe)}
+            >
+              {rememberMe && <Feather name="check" size={16} color="#3498DB" />}
+            </TouchableOpacity>
+            <Text style={styles.rememberMeText}>Remember Me</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword' as never)}>
               <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
             </TouchableOpacity>
-            <View style={styles.signupContainer}>
-              <Text style={styles.signupText}>Don't have an account?</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Signup' as never)}>
-                <Text style={styles.signupLink}>Sign Up</Text>
-              </TouchableOpacity>
-            </View>
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    </LinearGradient>
+          {error ? <Text style={styles.errorText}>{error}</Text> : null}
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}>Log In</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.signupContainer}>
+          <Text style={styles.signupText}>Don't have an account?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Signup' as never)}>
+            <Text style={styles.signupLink}>Sign Up</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  gradient: {
-    flex: 1,
-  
-  },
   container: {
     flex: 1,
-    paddingBottom: 150,
-    
+    backgroundColor: '#34495E',
   },
   scrollViewContent: {
     flexGrow: 1,
@@ -206,39 +183,30 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: 'center',
-    marginBottom: 40,
+    marginBottom: 30,
   },
   logo: {
-    width: 120,
-    height: 120,
+    width: 100,
+    height: 100,
     resizeMode: 'contain',
-  },
-  formContainer: {
-    width: '90%',
-    maxWidth: 400,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderRadius: 20,
-    padding: 20,
-    alignItems: 'center',
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#33CCFF',
+    color: '#FFFFFF',
     marginBottom: 30,
+  },
+  formContainer: {
+    width: '85%',
+    maxWidth: 400,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 10,
+    backgroundColor: '#2C3E50',
+    borderRadius: 8,
     marginBottom: 15,
     paddingHorizontal: 15,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
   },
   icon: {
     marginRight: 10,
@@ -247,24 +215,38 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 50,
     fontSize: 16,
-    color: '#333',
-    width: 300,
+    color: '#FFFFFF',
   },
-  inputpass: {
-    flex: 1,
-    height: 50,
-    fontSize: 16,
-    color: '#333',
-    width: 280,
+  optionsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderWidth: 1,
+    borderColor: '#3498DB',
+    borderRadius: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  rememberMeText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    marginLeft: -70,
+  },
+  forgotPasswordText: {
+    color: '#3498DB',
+    fontSize: 14,
   },
   button: {
-    backgroundColor: '#33CCFF',
-    borderRadius: 10,
+    backgroundColor: '#3498DB',
+    borderRadius: 8,
     paddingVertical: 15,
-    paddingHorizontal: 30,
     alignItems: 'center',
-    marginTop: 20,
-    width: '100%',
+    marginTop: 10,
   },
   buttonText: {
     color: 'white',
@@ -272,69 +254,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   errorText: {
-    color: 'red',
+    color: '#E74C3C',
     marginBottom: 10,
-  },
-  forgotPassword: {
-    marginTop: 15,
-  },
-  forgotPasswordText: {
-    color: '#33CCFF',
-    fontSize: 16,
+    textAlign: 'center',
   },
   signupContainer: {
     flexDirection: 'row',
     marginTop: 20,
   },
   signupText: {
-    color: '#666',
+    color: '#FFFFFF',
     fontSize: 16,
-    
   },
   signupLink: {
-    color: '#33CCFF',
+    color: '#3498DB',
     fontSize: 16,
     fontWeight: 'bold',
     marginLeft: 5,
-  },
-  socialLoginContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 20,
-  },
-  socialButton: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 10,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-  },
-  rememberMeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 15,
-    marginLeft:180,
-  },
-  checkbox: {
-    width: 20,
-    height: 20,
-    borderWidth: 1,
-    borderColor: '#33CCFF',
-    borderRadius: 4,
-    marginRight: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  rememberMeText: {
-    color: '#666',
-    fontSize: 16,
   },
 });
 

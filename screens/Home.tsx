@@ -1,18 +1,16 @@
-//screens\Home.tsx
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, AppState } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-import { getAuth, signOut } from 'firebase/auth'; 
+import { getAuth, signOut } from 'firebase/auth';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Feather } from '@expo/vector-icons';
 
-
-
-const AUTO_LOGOUT_TIME = 5000;
+const AUTO_LOGOUT_TIME = 60000;
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const auth = getAuth();
-  let timeoutId: NodeJS.Timeout; 
+  let timeoutId: NodeJS.Timeout;
 
   const handleChangePassword = () => {
     navigation.navigate('ChangePassword' as never);
@@ -20,13 +18,13 @@ const HomeScreen = () => {
 
   const handleLogout = async () => {
     try {
-      await signOut(auth); // Đăng xuất người dùng
-      navigation.navigate('Login' as never); // Chuyển hướng về màn hình đăng nhập
+      await signOut(auth);
+      navigation.navigate('Login' as never);
     } catch (error) {
       console.error('Error signing out: ', error);
     }
   };
-  
+
   const resetTimeout = () => {
     if (timeoutId) {
       clearTimeout(timeoutId);
@@ -35,34 +33,32 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    resetTimeout(); // Đặt timeout khi component mount
+    resetTimeout();
 
     const subscription = AppState.addEventListener('change', (nextAppState) => {
       if (nextAppState === 'active') {
-        resetTimeout(); // Reset timeout khi ứng dụng trở lại trạng thái hoạt động
+        resetTimeout();
       }
     });
 
     return () => {
       clearTimeout(timeoutId);
-      subscription.remove(); // Hủy đăng ký khi component unmount
+      subscription.remove();
     };
   }, []);
 
   return (
-    <LinearGradient
-      colors={['#0099FF', '#33CCFF']}
-      style={styles.container}
-    >
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Gumasushiuuu</Text>
       </View>
-      
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity 
           style={styles.button}
           onPress={handleChangePassword}
         >
+          <Feather name="lock" size={20} color="#FFFFFF" style={styles.icon} />
           <Text style={styles.buttonText}>Change Password</Text>
         </TouchableOpacity>
         
@@ -70,16 +66,18 @@ const HomeScreen = () => {
           style={styles.button}
           onPress={handleLogout}
         >
-          <Text style={styles.buttonText}>Logout</Text>
+          <Feather name="log-out" size={20} color="#FFFFFF" style={styles.icon} />
+          <Text style={styles.buttonText}>      Logout             </Text>
         </TouchableOpacity>
       </View>
-    </LinearGradient>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#34495E',
     paddingTop: 50,
     justifyContent: 'space-between',
   },
@@ -90,49 +88,31 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#fff',
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  card: {
-    width: '80%',
-    padding: 20,
-    marginVertical: 10,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  cardText: {
-    fontSize: 18,
-    color: '#FF5E62',
-    marginTop: 10,
-    fontWeight: '600',
+    color: '#FFFFFF',
   },
   buttonContainer: {
     marginBottom: 50,
     alignItems: 'center',
   },
   button: {
-    backgroundColor: 'white',
-    padding: 15,
+    flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 10,
+    justifyContent: 'center',
+    backgroundColor: '#3498DB',
+    padding: 15,
+    borderRadius: 8,
     marginVertical: 10,
-    width: 200,
+    width: '85%',
+    maxWidth: 300,
   },
   buttonText: {
-    color: '#0099FF',
-    fontSize: 16,
+    color: '#FFFFFF',
+    fontSize: 18,
     fontWeight: 'bold',
+    marginLeft: 10,
+  },
+  icon: {
+    marginRight: 10,
   },
 });
 

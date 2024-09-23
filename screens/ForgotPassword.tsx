@@ -1,9 +1,9 @@
-//screens\Home.tsx
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, Image } from 'react-native';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const auth = getAuth();
 
@@ -13,48 +13,62 @@ const ForgotPasswordScreen: React.FC = () => {
   const navigation = useNavigation();
 
   const handleResetPassword = async () => {
+    if (!email) {
+      setMessage('Please enter your email address.');
+      return;
+    }
     try {
       await sendPasswordResetEmail(auth, email);
       setMessage('Password reset email sent. Check your inbox.');
     } catch (error) {
-      setMessage('Please enter email.');
+      setMessage('Error sending reset email. Please try again.');
     }
   };
 
   return (
-    <KeyboardAvoidingView 
-      style={styles.container} 
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    <LinearGradient
+      colors={['#2C3E50', '#34495E']}
+      style={styles.container}
     >
-      <View style={styles.innerContainer}>
-        <Text style={styles.title}>Reset Password</Text>
-        <View style={styles.inputContainer}>
-          <Feather name="mail" size={24} color="#007AFF" style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your email"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
+      <KeyboardAvoidingView 
+        style={styles.keyboardAvoidingView} 
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <View style={styles.innerContainer}>
+          
+          <Text style={styles.title}>Forgot Password?</Text>
+          <Text style={styles.subtitle}>Enter your email to reset your password</Text>
+          <View style={styles.inputContainer}>
+            <Feather name="mail" size={20} color="#3498DB" style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Your email address"
+              placeholderTextColor="#7F8C8D"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+          </View>
+          {message ? <Text style={styles.messageText}>{message}</Text> : null}
+          <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
+            <Text style={styles.buttonText}>Reset Password</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.linkButton} onPress={() => navigation.navigate('Login' as never)}>
+            <Text style={styles.linkButtonText}>Back to Login</Text>
+          </TouchableOpacity>
         </View>
-        {message ? <Text style={styles.messageText}>{message}</Text> : null}
-        <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
-          <Text style={styles.buttonText}>Send Reset Email</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.linkButton} onPress={() => navigation.navigate('Login' as never)}>
-          <Text style={styles.linkButtonText}>Back to Login</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0099FF',
+  },
+  keyboardAvoidingView: {
+    flex: 1,
   },
   innerContainer: {
     flex: 1,
@@ -62,24 +76,32 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 30,
   },
+  logo: {
+    width: 100,
+    height: 100,
+    marginBottom: 30,
+  },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 40,
+    color: '#FFFFFF',
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#BDC3C7',
+    marginBottom: 30,
+    textAlign: 'center',
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 10,
+    backgroundColor: '#2C3E50',
+    borderRadius: 8,
     marginBottom: 20,
     paddingHorizontal: 15,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    width: '100%',
+    maxWidth: 300,
   },
   icon: {
     marginRight: 10,
@@ -87,17 +109,18 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: 50,
-    width:250,
     fontSize: 16,
-    color: '#333',
+    color: '#FFFFFF',
   },
   button: {
-    backgroundColor: '#007AFF',
-    borderRadius: 10,
+    backgroundColor: '#3498DB',
+    borderRadius: 8,
     paddingVertical: 15,
     paddingHorizontal: 30,
     alignItems: 'center',
     marginTop: 20,
+    width: '100%',
+    maxWidth: 300,
   },
   buttonText: {
     color: 'white',
@@ -105,7 +128,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   messageText: {
-    color: 'black',
+    color: '#E74C3C',
     marginBottom: 10,
     textAlign: 'center',
     fontWeight: 'bold',
@@ -114,9 +137,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   linkButtonText: {
-    color: 'black',
+    color: '#3498DB',
     fontSize: 16,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
 });
 

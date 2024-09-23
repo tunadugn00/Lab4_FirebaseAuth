@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
 import { getAuth, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { LinearGradient } from 'expo-linear-gradient';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ChangePasswordScreen: React.FC = () => {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -40,44 +39,48 @@ const ChangePasswordScreen: React.FC = () => {
     }
   };
 
+  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (text: string) => {
+    setter(text);
+    setError('');
+  };
+
   return (
-    <LinearGradient colors={['#0099FF', '#33CCFF']} style={styles.gradient}>
-      <KeyboardAvoidingView 
-        style={styles.container} 
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <Text style={styles.title}>Change Password</Text>
         <View style={styles.formContainer}>
-          <Text style={styles.title}>Change Password</Text>
-          
           <View style={styles.inputContainer}>
-            <Feather name="lock" size={24} color="#0099FF" style={styles.icon} />
+            <Feather name="lock" size={20} color="#7F8C8D" style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="Current Password"
+              placeholderTextColor="#7F8C8D"
               value={currentPassword}
-              onChangeText={setCurrentPassword}
+              onChangeText={handleInputChange(setCurrentPassword)}
               secureTextEntry
             />
           </View>
           
           <View style={styles.inputContainer}>
-            <Feather name="lock" size={24} color="#0099FF" style={styles.icon} />
+            <Feather name="lock" size={20} color="#7F8C8D" style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="New Password"
+              placeholderTextColor="#7F8C8D"
               value={newPassword}
-              onChangeText={setNewPassword}
+              onChangeText={handleInputChange(setNewPassword)}
               secureTextEntry
             />
           </View>
           
           <View style={styles.inputContainer}>
-            <Feather name="check-circle" size={24} color="#0099FF" style={styles.icon} />
+            <Feather name="check-circle" size={20} color="#7F8C8D" style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="Confirm New Password"
+              placeholderTextColor="#7F8C8D"
               value={confirmNewPassword}
-              onChangeText={setConfirmNewPassword}
+              onChangeText={handleInputChange(setConfirmNewPassword)}
               secureTextEntry
             />
           </View>
@@ -92,42 +95,39 @@ const ChangePasswordScreen: React.FC = () => {
             <Text style={styles.cancelButtonText}>Cancel</Text>
           </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
-    </LinearGradient>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  gradient: {
-    flex: 1,
-  },
   container: {
     flex: 1,
+    backgroundColor: '#34495E',
+  },
+  scrollViewContent: {
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  formContainer: {
-    width: '90%',
-    maxWidth: 400,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderRadius: 20,
-    padding: 20,
-    alignItems: 'center',
+    paddingVertical: 40,
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#0099FF',
+    color: '#FFFFFF',
     marginBottom: 30,
+  },
+  formContainer: {
+    width: '85%',
+    maxWidth: 400,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 10,
+    backgroundColor: '#2C3E50',
+    borderRadius: 8,
     marginBottom: 15,
     paddingHorizontal: 15,
-    width: '100%',
   },
   icon: {
     marginRight: 10,
@@ -136,16 +136,14 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 50,
     fontSize: 16,
-    color: '#333',
+    color: '#FFFFFF',
   },
   button: {
-    backgroundColor: '#0099FF',
-    borderRadius: 10,
+    backgroundColor: '#3498DB',
+    borderRadius: 8,
     paddingVertical: 15,
-    paddingHorizontal: 30,
     alignItems: 'center',
     marginTop: 20,
-    width: '100%',
   },
   buttonText: {
     color: 'white',
@@ -154,15 +152,17 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     marginTop: 15,
+    alignItems: 'center',
   },
   cancelButtonText: {
-    color: '#0099FF',
+    color: '#3498DB',
     fontSize: 16,
     fontWeight: 'bold',
   },
   errorText: {
-    color: '#0099FF',
+    color: '#E74C3C',
     marginBottom: 10,
+    textAlign: 'center',
   },
 });
 

@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   progressBarContainer: {
     height: 10,
     width: '100%',
-    backgroundColor: '#E0E0E0',
+    backgroundColor: '#34495E',
     borderRadius: 5,
     overflow: 'hidden',
     flexDirection: 'row', // Đảm bảo các thanh tiến trình nằm ngang
