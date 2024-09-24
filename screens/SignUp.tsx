@@ -12,27 +12,64 @@ const SignupScreen: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    general: ''
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigation = useNavigation();
 
-  const handleSignup = async () => {
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      return;
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = { email: '', password: '', confirmPassword: '', general: '' };
+
+    if (!email) {
+      newErrors.email = 'Email cannot be blank';
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = 'Invalid email';
+      isValid = false;
     }
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      navigation.navigate('Login' as never);
-    } catch (error) {
-      setError('Failed to create account');
+
+    if (!password) {
+      newErrors.password = 'Password cannot be blank';
+      isValid = false;
+    } else if (password.length < 6) {
+      newErrors.password = 'Password must have at least 6 characters';
+      isValid = false;
+    }
+
+    if (!confirmPassword) {
+      newErrors.confirmPassword = 'Please confirm your password';
+      isValid = false;
+    } else if (password !== confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match';
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const handleSignup = async () => {
+    if (validateForm()) {
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        navigation.navigate('Login' as never);
+      } catch (error) {
+        setErrors(prev => ({ ...prev, general: 'Unable to create account. Please try again.' }));
+      }
     }
   };
 
-  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (text: string) => {
-    setter(text);
-    setError('');
+  const handleInputChange = (field: keyof typeof errors) => (text: string) => {
+    if (field === 'email') setEmail(text);
+    if (field === 'password') setPassword(text);
+    if (field === 'confirmPassword') setConfirmPassword(text);
+    setErrors(prev => ({ ...prev, [field]: '', general: '' }));
   };
 
   return (
@@ -47,11 +84,13 @@ const SignupScreen: React.FC = () => {
               placeholder="Email"
               placeholderTextColor="#7F8C8D"
               value={email}
-              onChangeText={handleInputChange(setEmail)}
+              onChangeText={handleInputChange('email')}
               keyboardType="email-address"
               autoCapitalize="none"
             />
           </View>
+          {errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
+          
           <View style={styles.inputContainer}>
             <Feather name="lock" size={20} color="#7F8C8D" style={styles.icon} />
             <TextInput
@@ -59,37 +98,42 @@ const SignupScreen: React.FC = () => {
               placeholder="Password"
               placeholderTextColor="#7F8C8D"
               value={password}
-              onChangeText={handleInputChange(setPassword)}
+              onChangeText={handleInputChange('password')}
               secureTextEntry={!showPassword}
             />
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
               <Feather name={showPassword ? "eye" : "eye-off"} size={20} color="#7F8C8D" />
             </TouchableOpacity>
           </View>
+          {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
           <PasswordStrengthIndicator password={password} />
+          
           <View style={styles.inputContainer}>
             <Feather name="check-circle" size={20} color="#7F8C8D" style={styles.icon} />
             <TextInput
               style={styles.input}
-              placeholder="Confirm Password"
+              placeholder="Confirm password"
               placeholderTextColor="#7F8C8D"
               value={confirmPassword}
-              onChangeText={handleInputChange(setConfirmPassword)}
+              onChangeText={handleInputChange('confirmPassword')}
               secureTextEntry={!showConfirmPassword}
             />
             <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
               <Feather name={showConfirmPassword ? "eye" : "eye-off"} size={20} color="#7F8C8D" />
             </TouchableOpacity>
           </View>
-          {error ? <Text style={styles.errorText}>{error}</Text> : null}
+          {errors.confirmPassword ? <Text style={styles.errorText}>{errors.confirmPassword}</Text> : null}
+          
+          {errors.general ? <Text style={styles.errorText}>{errors.general}</Text> : null}
+          
           <TouchableOpacity style={styles.button} onPress={handleSignup}>
-            <Text style={styles.buttonText}>Sign Up</Text>
+            <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.loginContainer}>
           <Text style={styles.loginText}>Already have an account?</Text>
           <TouchableOpacity onPress={() => navigation.navigate('Login' as never)}>
-            <Text style={styles.loginLink}>Log In</Text>
+            <Text style={styles.loginLink}>Log in</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -123,7 +167,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#2C3E50',
     borderRadius: 8,
-    marginBottom: 15,
+    marginBottom: 10,
     paddingHorizontal: 15,
   },
   inputContaineremail: {
@@ -131,7 +175,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#2C3E50',
     borderRadius: 8,
-    marginBottom: 45,
+    marginBottom: 10,
     paddingHorizontal: 15,
   },
   icon: {
@@ -158,7 +202,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: '#E74C3C',
     marginBottom: 10,
-    textAlign: 'center',
+    marginLeft: 5,
   },
   loginContainer: {
     flexDirection: 'row',

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "202700732074",
+    "project_id": "lab4-firebase-150db",
+    "storage_bucket": "lab4-firebase-150db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202700732074:android:2331561f805fcf5ed482d3",
+        "android_client_info": {
+          "package_name": "com.yourcompany.firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "202700732074-1dtiei0olhf4bsgsrk2m3rm9js6lucej.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yourcompany.firebase",
+            "certificate_hash": "60596ae7b5c6ba206a4794331fa60cd3244e7dbc"
+          }
+        },
+        {
+          "client_id": "202700732074-4cvan05c8t0ouv4s80jooga30a9nqo24.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxK1K3sAvnpsrMTDzlEX4TNy4mQoA_IcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "202700732074-4cvan05c8t0ouv4s80jooga30a9nqo24.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
